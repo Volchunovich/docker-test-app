@@ -5,7 +5,7 @@ COPY package.json /app
 COPY package-lock.json /app
 COPY src /app/src
 
-RUN /usr/local//bin//npm install
+RUN /usr/local/bin/npm install
 
 EXPOSE 8080
 
