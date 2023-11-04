@@ -5,7 +5,8 @@ COPY package.json /app
 COPY package-lock.json /app
 COPY src /app/src
 
-RUN npm install
+RUN /usr/local//bin//npm install
+
 EXPOSE 8080
 
 CMD ["npm", "start"]
