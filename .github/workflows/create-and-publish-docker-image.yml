@@ -55,7 +55,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Save SECRET_KEY to file
-        run: echo "${{ secrets.GOOGLE_CLOUD_SECRET_KEY }}" > rsa_key
+        run: echo "${{ secrets.GOOGLE_CLOUD_SECRET_KEY }}" > rsa_key && chmod 600 rsa_key
       - name: Pull and run Docker image
         run: ssh -i rsa_key -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null artemvolchunovich@${{ secrets.EXTERNAL_IP_ADDRESS }} 'docker pull ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest && docker run -p 8080:8080 ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest'
 
