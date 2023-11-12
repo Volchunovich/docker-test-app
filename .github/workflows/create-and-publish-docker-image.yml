@@ -44,7 +44,7 @@ jobs:
       - name: Build and push nodejs-server
         uses: docker/build-push-action@v5.0.0
         with:
-          context: .
+          context: ./nodejs-server
           file: ./nodejs-server/Dockerfile
           push: true
           # platforms: linux/amd64,linux/arm64
