@@ -45,7 +45,7 @@ jobs:
         uses: docker/build-push-action@v5.0.0
         with:
           context: "{{defaultContext}}:nodejs-server"
-          file: ./nodejs-server/Dockerfile
+          file: "{{defaultContext}}/nodejs-server/Dockerfile"
           push: true
           # platforms: linux/amd64,linux/arm64
           tags: ${{ steps.meta.outputs.tags }}
@@ -55,7 +55,7 @@ jobs:
         uses: docker/build-push-action@v5.0.0
         with:
           context: "{{defaultContext}}:nginx"
-          file: ./nginx/Dockerfile
+          file: "{{defaultContext}}/nginx/Dockerfile"
           push: true
           # platforms: linux/amd64,linux/arm64
           tags: ${{ steps.meta.outputs.tags }}
