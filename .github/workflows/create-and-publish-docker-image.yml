@@ -41,20 +41,31 @@ jobs:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
           tags: type=semver,pattern={{raw}}
 
-      - name: Build and push Docker image
+      - name: Build and push nodejs-server
         uses: docker/build-push-action@v5.0.0
         with:
-          context: .
+          context: "{{defaultContext}}:nodejs-server"
+          file: ./nodejs-server/Dockerfile
           push: true
           # platforms: linux/amd64,linux/arm64
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
 
-  deploy:
-    needs: build-and-push-image
-    runs-on: ubuntu-latest
-    steps:
-      - name: Save SECRET_KEY to file
-        run: echo "${{ secrets.GOOGLE_CLOUD_SECRET_KEY }}" > rsa_key && chmod 600 rsa_key
-      - name: Pull and run Docker image
-        run: ssh -i rsa_key -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null artemvolchunovich@${{ secrets.EXTERNAL_IP_ADDRESS }} 'docker pull ghcr.io/volchunovich/docker-test-app:latest && docker run -p 443:8080 -d ghcr.io/volchunovich/docker-test-app:latest'
+      - name: Build and push nginx
+        uses: docker/build-push-action@v5.0.0
+        with:
+          context: "{{defaultContext}}:nginx"
+          file: ./nginx/Dockerfile
+          push: true
+          # platforms: linux/amd64,linux/arm64
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+
+  # deploy:
+  #   needs: build-and-push-image
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Save SECRET_KEY to file
+  #       run: echo "${{ secrets.GOOGLE_CLOUD_SECRET_KEY }}" > rsa_key && chmod 600 rsa_key
+  #     - name: Pull and run Docker image
+  #       run: ssh -i rsa_key -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null artemvolchunovich@${{ secrets.EXTERNAL_IP_ADDRESS }} 'docker pull ghcr.io/volchunovich/docker-test-app:latest && docker run -p 443:8080 -d ghcr.io/volchunovich/docker-test-app:latest'
