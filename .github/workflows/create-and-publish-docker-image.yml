@@ -48,8 +48,7 @@ jobs:
           file: ./nodejs-server/Dockerfile
           push: true
           # platforms: linux/amd64,linux/arm64
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
+          tags: docker-test-app/nodejs-server:latest
 
       - name: Build and push nginx
         uses: docker/build-push-action@v5.0.0
@@ -58,8 +57,7 @@ jobs:
           file: ./nginx/Dockerfile
           push: true
           # platforms: linux/amd64,linux/arm64
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
+          tags: docker-test-app/nginx:latest
 
   # deploy:
   #   needs: build-and-push-image
