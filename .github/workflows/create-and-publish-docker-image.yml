@@ -58,8 +58,8 @@ jobs:
       - name: Save SECRET_KEY to file
         run: echo "${{ secrets.GOOGLE_CLOUD_SECRET_KEY }}" > rsa_key && chmod 600 rsa_key
       - name: Copy nginx config to server
-        run: scp -i rsa_key -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null ./nginx/default.conf artemvolchunovich@${{ secrets.EXTERNAL_IP_ADDRESS }}:~/nginx/default.conf
+        run: scp -i rsa_key -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null ./nginx/default.conf artemvolchunovich@${{ secrets.EXTERNAL_IP_ADDRESS }}:nginx/default.conf
       - name: Copy docker-compose.yml to server
-        run: scp -i rsa_key -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null ./docker-compose.yml artemvolchunovich@${{ secrets.EXTERNAL_IP_ADDRESS }}:~/docker-compose.yml
+        run: scp -i rsa_key -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null ./docker-compose.yml artemvolchunovich@${{ secrets.EXTERNAL_IP_ADDRESS }}:docker-compose.yml
       - name: Pull and run Docker image
         run: ssh -i rsa_key -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null artemvolchunovich@${{ secrets.EXTERNAL_IP_ADDRESS }} 'docker-compose up -d'
