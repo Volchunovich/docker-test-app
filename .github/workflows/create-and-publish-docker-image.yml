@@ -57,6 +57,8 @@ jobs:
     steps:
       - name: Save SECRET_KEY to file
         run: echo "${{ secrets.GOOGLE_CLOUD_SECRET_KEY }}" > rsa_key && chmod 600 rsa_key
+      - name: Checkout
+        uses: actions/checkout@v4
       - name: Copy nginx config to server
         run: scp -i rsa_key -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null ./nginx/default.conf artemvolchunovich@${{ secrets.EXTERNAL_IP_ADDRESS }}:nginx/default.conf
       - name: Copy docker-compose.yml to server
