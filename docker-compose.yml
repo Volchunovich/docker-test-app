@@ -13,7 +13,7 @@ services:
   nginx:
     image: nginx:latest
     container_name: nginx
-    mounts:
+    volumes:
       - ./nginx/default.conf:/etc/nginx/default.conf
     restart: always
     ports:
